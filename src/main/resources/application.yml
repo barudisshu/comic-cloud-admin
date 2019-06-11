@@ -8,4 +8,6 @@ spring:
     sql-dialect: mysql_8_0
   application:
     name: "comic-cloud-admin"
+  flyway:
+    baseline-on-migrate: true
 ---

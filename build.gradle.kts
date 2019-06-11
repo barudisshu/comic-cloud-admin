@@ -1,4 +1,3 @@
-import nu.studer.gradle.jooq.JooqExtension
 import org.flywaydb.gradle.FlywayExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jooq.codegen.GenerationTool
@@ -88,11 +87,12 @@ configure<FlywayExtension> {
     user = dbUser
     password = dbPasswd
     sqlMigrationPrefix = "MySQL-"
+    baselineOnMigrate = true
 }
 
 tasks {
     val jooqCodeGen by creating(DefaultTask::class) {
-                dependsOn(get("flywayMigrate"))
+        dependsOn(get("flywayMigrate"))
 
         val configuration = Configuration().apply {
             jdbc = Jdbc().apply {
