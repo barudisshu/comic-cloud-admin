@@ -1,0 +1,9 @@
+---
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:mysql://localhost/comic?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+---

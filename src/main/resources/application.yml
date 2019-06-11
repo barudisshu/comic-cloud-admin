@@ -1,0 +1,11 @@
+---
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jooq:
+    sql-dialect: mysql_8_0
+  application:
+    name: "comic-cloud-admin"
+---
