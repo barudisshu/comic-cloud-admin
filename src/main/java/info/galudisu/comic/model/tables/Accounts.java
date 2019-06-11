@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Accounts extends TableImpl<AccountsRecord> {
 
-    private static final long serialVersionUID = -1906994515;
+    private static final long serialVersionUID = 516217582;
 
     /**
      * The reference instance of <code>comic.accounts</code>
@@ -85,7 +85,7 @@ public class Accounts extends TableImpl<AccountsRecord> {
     /**
      * The column <code>comic.accounts.EMAIL</code>.
      */
-    public final TableField<AccountsRecord, String> EMAIL = createField("EMAIL", org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "");
+    public final TableField<AccountsRecord, String> EMAIL = createField("EMAIL", org.jooq.impl.SQLDataType.VARCHAR(200).nullable(false), this, "");
 
     /**
      * The column <code>comic.accounts.PHONE</code>.

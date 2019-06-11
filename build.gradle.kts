@@ -9,7 +9,7 @@ val jacksonVersion = "2.9.9"
 val swaggerVersion = "2.9.2"
 val mysqlVersion = "8.0.12"
 val jooQVersion = "3.11.5"
-val flywayVersion = "4.0.3"
+val flywayVersion = "5.2.4"
 
 
 val dbUser = "root"
@@ -58,6 +58,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-quartz")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -79,6 +80,10 @@ dependencies {
     // swagger
     compile("io.springfox:springfox-swagger2:$swaggerVersion")
     compile("io.springfox:springfox-swagger-ui:$swaggerVersion")
+    // apache common
+    compile("commons-codec:commons-codec:1.12")
+    // gson
+    compile("com.google.code.gson:gson:2.8.5")
 }
 
 configure<FlywayExtension> {
