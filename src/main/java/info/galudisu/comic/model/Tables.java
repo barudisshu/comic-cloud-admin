@@ -10,9 +10,6 @@ import info.galudisu.comic.model.tables.Clients;
 import javax.annotation.Generated;
 
 
-/**
- * Convenience access to all tables in comic
- */
 @Generated(
     value = {
         "http://www.jooq.org",
@@ -23,13 +20,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
-    /**
-     * The table <code>comic.accounts</code>.
-     */
     public static final Accounts ACCOUNTS = info.galudisu.comic.model.tables.Accounts.ACCOUNTS;
 
-    /**
-     * The table <code>comic.clients</code>.
-     */
     public static final Clients CLIENTS = info.galudisu.comic.model.tables.Clients.CLIENTS;
 }

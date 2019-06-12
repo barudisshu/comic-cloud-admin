@@ -12,8 +12,6 @@ class AccountController(
         private val accountRepo: AccountRepo
 ) {
 
-    private var logger: Logger = LoggerFactory.getLogger(this.javaClass)
-
     @GetMapping
     fun accountsFindAll() = accountRepo.getAllRecords().toList().map { it.toAccountsDto() }
 
@@ -37,4 +35,10 @@ class AccountController(
                     .let { accountRepo.update(it) }
                     .also { logger.info("Updated Record: {}", it) }
                     .toAccountsDto()
+
+
+    companion object {
+        private val logger: Logger = LoggerFactory.getLogger(AccountController::class.java)
+
+    }
 }

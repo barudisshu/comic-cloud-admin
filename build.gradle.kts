@@ -4,12 +4,14 @@ import org.jooq.codegen.GenerationTool
 import org.jooq.meta.jaxb.*
 import org.jooq.meta.jaxb.Configuration
 import org.jooq.meta.jaxb.Target
+import org.jooq.meta.jaxb.ForcedType
 
 val jacksonVersion = "2.9.9"
 val swaggerVersion = "2.9.2"
 val mysqlVersion = "8.0.12"
 val jooQVersion = "3.11.5"
 val flywayVersion = "5.2.4"
+val shiroVersion = "1.4.1"
 
 
 val dbUser = "root"
@@ -65,6 +67,10 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // shiro
+    compile("org.apache.shiro:shiro-core:$shiroVersion")
+    compile("org.apache.shiro:shiro-web:$shiroVersion")
+    compile("org.apache.shiro:shiro-spring:$shiroVersion")
     // jooq
     compile("org.jooq:jooq:$jooQVersion")
     // flyway
@@ -82,8 +88,14 @@ dependencies {
     compile("io.springfox:springfox-swagger-ui:$swaggerVersion")
     // apache common
     compile("commons-codec:commons-codec:1.12")
+    compile("org.apache.commons:commons-lang3:3.9")
+    compile("org.apache.commons:commons-collections4:4.3")
+    compile("org.apache.commons:commons-math3:3.6.1")
+    compile("commons-io:commons-io:2.6")
     // gson
     compile("com.google.code.gson:gson:2.8.5")
+    // okhttp
+    compile("com.squareup.okhttp3:okhttp:3.14.2")
 }
 
 configure<FlywayExtension> {
@@ -99,6 +111,27 @@ tasks {
     val jooqCodeGen by creating(DefaultTask::class) {
         dependsOn(get("flywayMigrate"))
 
+        fun target(): Target = Target()
+                .withDirectory("src/main/java")
+                .withPackageName("info.galudisu.comic.model")
+                .withClean(true)
+
+        fun generate(): Generate = Generate()
+                .withJavaTimeTypes(false)
+                .withComments(false)
+                .withJavadoc(false)
+                .withDeprecated(false)
+
+        fun database(): Database = Database()
+                .withName("org.jooq.meta.mysql.MySQLDatabase")
+                .withExcludes("flyway_schema_history")
+                .withIncludes(".*")
+                .withInputSchema("comic")
+                .withForcedTypes(ForcedType()
+                        .withUserType("java.time.Instant")
+                        .withConverter("info.galudisu.comic.converter.InstantConverter")
+                        .withTypes("TIMESTAMP"))
+
         val configuration = Configuration().apply {
             jdbc = Jdbc().apply {
                 driver = "com.mysql.cj.jdbc.Driver"
@@ -107,18 +140,11 @@ tasks {
                 password = dbPasswd
                 schema = "public"
             }
-            generator = Generator().apply {
-                database = Database().apply {
-                    name = "org.jooq.meta.mysql.MySQLDatabase"
-                    includes = ".*"
-                    excludes = "flyway*.*"
-                    inputSchema = "comic"
-                }
-                target = Target().apply {
-                    packageName = "info.galudisu.comic.model"
-                    directory = "src/main/java"
-                }
-            }
+
+            generator = Generator()
+                    .withDatabase(database())
+                    .withGenerate(generate())
+                    .withTarget(target())
         }
         GenerationTool.generate(configuration)
     }

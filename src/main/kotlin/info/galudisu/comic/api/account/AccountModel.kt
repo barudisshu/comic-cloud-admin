@@ -9,7 +9,7 @@ import java.util.*
 data class AccountsDto(val id: String, val username: String, val password: String, val email: String, val phone: String?, val createdAt: Instant)
 
 fun AccountsRecord.toAccountsDto() = AccountsDto(
-        id = uid, username = username, password = password, email = email, phone = phone, createdAt = createdAt.toInstant()
+        id = uid, username = username, password = password, email = email, phone = phone, createdAt = createdAt
 )
 
 data class AccountsCreateRequest(val username: String, val rawPwd: String, val email: String, val phone: String?)

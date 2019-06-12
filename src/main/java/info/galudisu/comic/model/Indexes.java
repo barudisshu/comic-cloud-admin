@@ -14,9 +14,6 @@ import org.jooq.OrderField;
 import org.jooq.impl.Internal;
 
 
-/**
- * A class modelling indexes of tables of the <code>comic</code> schema.
- */
 @Generated(
     value = {
         "http://www.jooq.org",

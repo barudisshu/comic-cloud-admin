@@ -16,10 +16,6 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
 
-/**
- * A class modelling foreign key relationships and constraints of tables of 
- * the <code>comic</code> schema.
- */
 @Generated(
     value = {
         "http://www.jooq.org",
