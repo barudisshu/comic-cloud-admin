@@ -4,10 +4,18 @@
 package info.galudisu.comic.model;
 
 
-import info.galudisu.comic.model.tables.Accounts;
+import info.galudisu.comic.model.tables.Account;
+import info.galudisu.comic.model.tables.AccountRole;
 import info.galudisu.comic.model.tables.Clients;
-import info.galudisu.comic.model.tables.records.AccountsRecord;
+import info.galudisu.comic.model.tables.Permission;
+import info.galudisu.comic.model.tables.Role;
+import info.galudisu.comic.model.tables.RolePermission;
+import info.galudisu.comic.model.tables.records.AccountRecord;
+import info.galudisu.comic.model.tables.records.AccountRoleRecord;
 import info.galudisu.comic.model.tables.records.ClientsRecord;
+import info.galudisu.comic.model.tables.records.PermissionRecord;
+import info.galudisu.comic.model.tables.records.RolePermissionRecord;
+import info.galudisu.comic.model.tables.records.RoleRecord;
 
 import javax.annotation.Generated;
 
@@ -30,19 +38,22 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<AccountsRecord, Integer> IDENTITY_ACCOUNTS = Identities0.IDENTITY_ACCOUNTS;
+    public static final Identity<AccountRecord, Integer> IDENTITY_ACCOUNT = Identities0.IDENTITY_ACCOUNT;
     public static final Identity<ClientsRecord, Integer> IDENTITY_CLIENTS = Identities0.IDENTITY_CLIENTS;
+    public static final Identity<PermissionRecord, Integer> IDENTITY_PERMISSION = Identities0.IDENTITY_PERMISSION;
+    public static final Identity<RoleRecord, Integer> IDENTITY_ROLE = Identities0.IDENTITY_ROLE;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_PRIMARY = UniqueKeys0.KEY_ACCOUNTS_PRIMARY;
-    public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_ID = UniqueKeys0.KEY_ACCOUNTS_ID;
-    public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_UID = UniqueKeys0.KEY_ACCOUNTS_UID;
-    public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_ACCOUNT_USERNAME_IDX = UniqueKeys0.KEY_ACCOUNTS_ACCOUNT_USERNAME_IDX;
-    public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_ACCOUNT_SALT_IDX = UniqueKeys0.KEY_ACCOUNTS_ACCOUNT_SALT_IDX;
-    public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_SALT = UniqueKeys0.KEY_ACCOUNTS_SALT;
+    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = UniqueKeys0.KEY_ACCOUNT_PRIMARY;
+    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_ID = UniqueKeys0.KEY_ACCOUNT_ID;
+    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_UID = UniqueKeys0.KEY_ACCOUNT_UID;
+    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_ACCOUNT_USERNAME_IDX = UniqueKeys0.KEY_ACCOUNT_ACCOUNT_USERNAME_IDX;
+    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_ACCOUNT_SALT_IDX = UniqueKeys0.KEY_ACCOUNT_ACCOUNT_SALT_IDX;
+    public static final UniqueKey<AccountRecord> KEY_ACCOUNT_SALT = UniqueKeys0.KEY_ACCOUNT_SALT;
+    public static final UniqueKey<AccountRoleRecord> KEY_ACCOUNT_ROLE_PRIMARY = UniqueKeys0.KEY_ACCOUNT_ROLE_PRIMARY;
     public static final UniqueKey<ClientsRecord> KEY_CLIENTS_PRIMARY = UniqueKeys0.KEY_CLIENTS_PRIMARY;
     public static final UniqueKey<ClientsRecord> KEY_CLIENTS_ID = UniqueKeys0.KEY_CLIENTS_ID;
     public static final UniqueKey<ClientsRecord> KEY_CLIENTS_UID = UniqueKeys0.KEY_CLIENTS_UID;
@@ -51,6 +62,17 @@ public class Keys {
     public static final UniqueKey<ClientsRecord> KEY_CLIENTS_CLIENT_ID = UniqueKeys0.KEY_CLIENTS_CLIENT_ID;
     public static final UniqueKey<ClientsRecord> KEY_CLIENTS_CLIENT_CLIENT_SECRET_IDX = UniqueKeys0.KEY_CLIENTS_CLIENT_CLIENT_SECRET_IDX;
     public static final UniqueKey<ClientsRecord> KEY_CLIENTS_CLIENT_SECRET = UniqueKeys0.KEY_CLIENTS_CLIENT_SECRET;
+    public static final UniqueKey<PermissionRecord> KEY_PERMISSION_PRIMARY = UniqueKeys0.KEY_PERMISSION_PRIMARY;
+    public static final UniqueKey<PermissionRecord> KEY_PERMISSION_ID = UniqueKeys0.KEY_PERMISSION_ID;
+    public static final UniqueKey<PermissionRecord> KEY_PERMISSION_UID = UniqueKeys0.KEY_PERMISSION_UID;
+    public static final UniqueKey<PermissionRecord> KEY_PERMISSION_PERMISSION_CODE_IDX = UniqueKeys0.KEY_PERMISSION_PERMISSION_CODE_IDX;
+    public static final UniqueKey<PermissionRecord> KEY_PERMISSION_PERMISSION_INDEX_IDX = UniqueKeys0.KEY_PERMISSION_PERMISSION_INDEX_IDX;
+    public static final UniqueKey<RoleRecord> KEY_ROLE_PRIMARY = UniqueKeys0.KEY_ROLE_PRIMARY;
+    public static final UniqueKey<RoleRecord> KEY_ROLE_ID = UniqueKeys0.KEY_ROLE_ID;
+    public static final UniqueKey<RoleRecord> KEY_ROLE_UID = UniqueKeys0.KEY_ROLE_UID;
+    public static final UniqueKey<RoleRecord> KEY_ROLE_ROLE_CODE_IDX = UniqueKeys0.KEY_ROLE_ROLE_CODE_IDX;
+    public static final UniqueKey<RoleRecord> KEY_ROLE_ROLE_TITLE_IDX = UniqueKeys0.KEY_ROLE_ROLE_TITLE_IDX;
+    public static final UniqueKey<RolePermissionRecord> KEY_ROLE_PERMISSION_PRIMARY = UniqueKeys0.KEY_ROLE_PERMISSION_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -62,17 +84,20 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
-        public static Identity<AccountsRecord, Integer> IDENTITY_ACCOUNTS = Internal.createIdentity(Accounts.ACCOUNTS, Accounts.ACCOUNTS.ID);
+        public static Identity<AccountRecord, Integer> IDENTITY_ACCOUNT = Internal.createIdentity(Account.ACCOUNT, Account.ACCOUNT.ID);
         public static Identity<ClientsRecord, Integer> IDENTITY_CLIENTS = Internal.createIdentity(Clients.CLIENTS, Clients.CLIENTS.ID);
+        public static Identity<PermissionRecord, Integer> IDENTITY_PERMISSION = Internal.createIdentity(Permission.PERMISSION, Permission.PERMISSION.ID);
+        public static Identity<RoleRecord, Integer> IDENTITY_ROLE = Internal.createIdentity(Role.ROLE, Role.ROLE.ID);
     }
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_PRIMARY = Internal.createUniqueKey(Accounts.ACCOUNTS, "KEY_accounts_PRIMARY", Accounts.ACCOUNTS.ID);
-        public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_ID = Internal.createUniqueKey(Accounts.ACCOUNTS, "KEY_accounts_ID", Accounts.ACCOUNTS.ID);
-        public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_UID = Internal.createUniqueKey(Accounts.ACCOUNTS, "KEY_accounts_UID", Accounts.ACCOUNTS.UID);
-        public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_ACCOUNT_USERNAME_IDX = Internal.createUniqueKey(Accounts.ACCOUNTS, "KEY_accounts_ACCOUNT_USERNAME_IDX", Accounts.ACCOUNTS.USERNAME);
-        public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_ACCOUNT_SALT_IDX = Internal.createUniqueKey(Accounts.ACCOUNTS, "KEY_accounts_ACCOUNT_SALT_IDX", Accounts.ACCOUNTS.SALT);
-        public static final UniqueKey<AccountsRecord> KEY_ACCOUNTS_SALT = Internal.createUniqueKey(Accounts.ACCOUNTS, "KEY_accounts_SALT", Accounts.ACCOUNTS.SALT);
+        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_PRIMARY = Internal.createUniqueKey(Account.ACCOUNT, "KEY_account_PRIMARY", Account.ACCOUNT.ID);
+        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_ID = Internal.createUniqueKey(Account.ACCOUNT, "KEY_account_ID", Account.ACCOUNT.ID);
+        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_UID = Internal.createUniqueKey(Account.ACCOUNT, "KEY_account_UID", Account.ACCOUNT.UID);
+        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_ACCOUNT_USERNAME_IDX = Internal.createUniqueKey(Account.ACCOUNT, "KEY_account_ACCOUNT_USERNAME_IDX", Account.ACCOUNT.USERNAME);
+        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_ACCOUNT_SALT_IDX = Internal.createUniqueKey(Account.ACCOUNT, "KEY_account_ACCOUNT_SALT_IDX", Account.ACCOUNT.SALT);
+        public static final UniqueKey<AccountRecord> KEY_ACCOUNT_SALT = Internal.createUniqueKey(Account.ACCOUNT, "KEY_account_SALT", Account.ACCOUNT.SALT);
+        public static final UniqueKey<AccountRoleRecord> KEY_ACCOUNT_ROLE_PRIMARY = Internal.createUniqueKey(AccountRole.ACCOUNT_ROLE, "KEY_account_role_PRIMARY", AccountRole.ACCOUNT_ROLE.ACCOUNT_UID, AccountRole.ACCOUNT_ROLE.ROLE_UID);
         public static final UniqueKey<ClientsRecord> KEY_CLIENTS_PRIMARY = Internal.createUniqueKey(Clients.CLIENTS, "KEY_clients_PRIMARY", Clients.CLIENTS.ID);
         public static final UniqueKey<ClientsRecord> KEY_CLIENTS_ID = Internal.createUniqueKey(Clients.CLIENTS, "KEY_clients_ID", Clients.CLIENTS.ID);
         public static final UniqueKey<ClientsRecord> KEY_CLIENTS_UID = Internal.createUniqueKey(Clients.CLIENTS, "KEY_clients_UID", Clients.CLIENTS.UID);
@@ -81,5 +106,16 @@ public class Keys {
         public static final UniqueKey<ClientsRecord> KEY_CLIENTS_CLIENT_ID = Internal.createUniqueKey(Clients.CLIENTS, "KEY_clients_CLIENT_ID", Clients.CLIENTS.CLIENT_ID);
         public static final UniqueKey<ClientsRecord> KEY_CLIENTS_CLIENT_CLIENT_SECRET_IDX = Internal.createUniqueKey(Clients.CLIENTS, "KEY_clients_CLIENT_CLIENT_SECRET_IDX", Clients.CLIENTS.CLIENT_SECRET);
         public static final UniqueKey<ClientsRecord> KEY_CLIENTS_CLIENT_SECRET = Internal.createUniqueKey(Clients.CLIENTS, "KEY_clients_CLIENT_SECRET", Clients.CLIENTS.CLIENT_SECRET);
+        public static final UniqueKey<PermissionRecord> KEY_PERMISSION_PRIMARY = Internal.createUniqueKey(Permission.PERMISSION, "KEY_permission_PRIMARY", Permission.PERMISSION.ID);
+        public static final UniqueKey<PermissionRecord> KEY_PERMISSION_ID = Internal.createUniqueKey(Permission.PERMISSION, "KEY_permission_ID", Permission.PERMISSION.ID);
+        public static final UniqueKey<PermissionRecord> KEY_PERMISSION_UID = Internal.createUniqueKey(Permission.PERMISSION, "KEY_permission_UID", Permission.PERMISSION.UID);
+        public static final UniqueKey<PermissionRecord> KEY_PERMISSION_PERMISSION_CODE_IDX = Internal.createUniqueKey(Permission.PERMISSION, "KEY_permission_PERMISSION_CODE_IDX", Permission.PERMISSION.CODE);
+        public static final UniqueKey<PermissionRecord> KEY_PERMISSION_PERMISSION_INDEX_IDX = Internal.createUniqueKey(Permission.PERMISSION, "KEY_permission_PERMISSION_INDEX_IDX", Permission.PERMISSION.INDEX);
+        public static final UniqueKey<RoleRecord> KEY_ROLE_PRIMARY = Internal.createUniqueKey(Role.ROLE, "KEY_role_PRIMARY", Role.ROLE.ID);
+        public static final UniqueKey<RoleRecord> KEY_ROLE_ID = Internal.createUniqueKey(Role.ROLE, "KEY_role_ID", Role.ROLE.ID);
+        public static final UniqueKey<RoleRecord> KEY_ROLE_UID = Internal.createUniqueKey(Role.ROLE, "KEY_role_UID", Role.ROLE.UID);
+        public static final UniqueKey<RoleRecord> KEY_ROLE_ROLE_CODE_IDX = Internal.createUniqueKey(Role.ROLE, "KEY_role_ROLE_CODE_IDX", Role.ROLE.CODE);
+        public static final UniqueKey<RoleRecord> KEY_ROLE_ROLE_TITLE_IDX = Internal.createUniqueKey(Role.ROLE, "KEY_role_ROLE_TITLE_IDX", Role.ROLE.TITLE);
+        public static final UniqueKey<RolePermissionRecord> KEY_ROLE_PERMISSION_PRIMARY = Internal.createUniqueKey(RolePermission.ROLE_PERMISSION, "KEY_role_permission_PRIMARY", RolePermission.ROLE_PERMISSION.ROLE_UID, RolePermission.ROLE_PERMISSION.PERMISSION_UID);
     }
 }

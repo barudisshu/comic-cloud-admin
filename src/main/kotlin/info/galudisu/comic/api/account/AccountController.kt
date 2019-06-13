@@ -13,17 +13,17 @@ class AccountController(
 ) {
 
     @GetMapping
-    fun accountsFindAll() = accountRepo.getAllRecords().toList().map { it.toAccountsDto() }
+    fun accountsFindAll() = accountRepo.getAllRecords().toList().map { it.toAccountDto() }
 
     @GetMapping("/{id}")
-    fun accountsGetOne(@PathVariable id: String) = accountRepo.requireOneById(id).toAccountsDto()
+    fun accountsGetOne(@PathVariable id: String) = accountRepo.requireOneById(id).toAccountDto()
 
     @PutMapping
     fun accountsCreateOne(@RequestBody req: AccountsCreateRequest) =
-            req.toAccountsRecord()
+            req.toAccountRecord()
                     .let { accountRepo.insert(it) }
                     .also { logger.info("update Record: {}", it) }
-                    .toAccountsDto()
+                    .toAccountDto()
 
     @PostMapping("/{id}")
     fun accountsUpdateOne(@PathVariable id: String, @RequestBody req: AccountsUpdateRequest): AccountsDto =
@@ -34,7 +34,7 @@ class AccountController(
                     }
                     .let { accountRepo.update(it) }
                     .also { logger.info("Updated Record: {}", it) }
-                    .toAccountsDto()
+                    .toAccountDto()
 
 
     companion object {

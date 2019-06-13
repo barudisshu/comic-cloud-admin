@@ -23,8 +23,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for ACCOUNTS
 -- ----------------------------
-DROP TABLE IF EXISTS `ACCOUNTS`;
-create table `ACCOUNTS`
+DROP TABLE IF EXISTS `ACCOUNT`;
+create table `ACCOUNT`
 (
     `ID`         INTEGER      NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `UID`        VARCHAR(64)  NOT NULL UNIQUE,
@@ -33,14 +33,100 @@ create table `ACCOUNTS`
     `SALT`       VARCHAR(500) NOT NULL UNIQUE,
     `EMAIL`      VARCHAR(100) NOT NULL,
     `PHONE`      VARCHAR(20),
-    `CREATED_AT` timestamp    not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL
+    `CREATED_AT` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY` VARCHAR(64)  NOT NULL,
+    `UPDATED_AT` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `UPDATED_BY` VARCHAR(64)  NOT NULL
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 2
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
-create unique index `ACCOUNT_SALT_IDX` on `ACCOUNTS` (`SALT`);
-create unique index `ACCOUNT_USERNAME_IDX` on `ACCOUNTS` (`USERNAME`);
+create unique index `ACCOUNT_SALT_IDX` on `ACCOUNT` (`SALT`);
+create unique index `ACCOUNT_USERNAME_IDX` on `ACCOUNT` (`USERNAME`);
+
+-- ----------------------------
+-- Table structure for ACCOUNT_ROLE
+-- ----------------------------
+DROP TABLE IF EXISTS `ACCOUNT_ROLE`;
+CREATE TABLE `ACCOUNT_ROLE`
+(
+    `ACCOUNT_UID` VARCHAR(64),
+    `ROLE_UID`    VARCHAR(64),
+    `CREATED_AT`  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY`  VARCHAR(64) NOT NULL,
+    PRIMARY KEY (`ACCOUNT_UID`, `ROLE_UID`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for ROLES
+-- ----------------------------
+DROP TABLE IF EXISTS `ROLE`;
+CREATE TABLE `ROLE`
+(
+    `ID`          INTEGER      NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
+    `UID`         VARCHAR(64)  NOT NULL UNIQUE,
+    `CODE`        VARCHAR(150) NOT NULL,
+    `TITLE`       VARCHAR(150) NOT NULL,
+    `DESCRIPTION` VARCHAR(255),
+    `TYPE`        TINYINT,
+    `STATUS`      TINYINT,
+    `CREATED_AT`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY`  VARCHAR(64)  NOT NULL,
+    `UPDATED_AT`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `UPDATED_BY`  VARCHAR(64)  NOT NULL
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+create unique index `ROLE_CODE_IDX` on `ROLE` (`CODE`);
+create unique index `ROLE_TITLE_IDX` on `ROLE` (`TITLE`);
+
+-- ----------------------------
+-- Table structure for ROLE_PERMISSION
+-- ----------------------------
+DROP TABLE IF EXISTS `ROLE_PERMISSION`;
+CREATE TABLE `ROLE_PERMISSION`
+(
+    `ROLE_UID`       VARCHAR(64),
+    `PERMISSION_UID` VARCHAR(64),
+    `CREATED_AT`     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY`     VARCHAR(64) NOT NULL,
+    PRIMARY KEY (`ROLE_UID`, `PERMISSION_UID`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for PERMISSION
+-- ----------------------------
+DROP TABLE IF EXISTS `PERMISSION`;
+CREATE TABLE `PERMISSION`
+(
+    `ID`          INTEGER      NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
+    `PARENT_ID`   INTEGER,
+    `UID`         VARCHAR(64)  NOT NULL UNIQUE,
+    `CODE`        VARCHAR(150) NOT NULL,
+    `TITLE`       VARCHAR(150) NOT NULL,
+    `DESCRIPTION` VARCHAR(255),
+    `URL`         VARCHAR(255),
+    `INDEX`       TINYINT COMMENT '序号',
+    `TYPE`        TINYINT,
+    `STATUS`      TINYINT,
+    `CREATED_AT`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY`  VARCHAR(64)  NOT NULL,
+    `UPDATED_AT`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `UPDATED_BY`  VARCHAR(64)  NOT NULL
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+create unique index `PERMISSION_CODE_IDX` on `PERMISSION` (`CODE`);
+create unique index `PERMISSION_INDEX_IDX` on `PERMISSION` (`INDEX`);
 
 -- ----------------------------
 -- Table structure for CLIENTS
@@ -48,13 +134,16 @@ create unique index `ACCOUNT_USERNAME_IDX` on `ACCOUNTS` (`USERNAME`);
 DROP TABLE IF EXISTS `CLIENTS`;
 create table `CLIENTS`
 (
-    `ID`            INTEGER                                                         NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
-    `UID`           VARCHAR(64)                                                     NOT NULL UNIQUE,
-    `OWNER_ID`      VARCHAR(64)                                                     NOT NULL UNIQUE,
-    `CLIENT_ID`     VARCHAR(100)                                                    NOT NULL UNIQUE,
-    `CLIENT_SECRET` VARCHAR(100)                                                    NOT NULL UNIQUE,
+    `ID`            INTEGER      NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
+    `UID`           VARCHAR(64)  NOT NULL UNIQUE,
+    `OWNER_ID`      VARCHAR(64)  NOT NULL UNIQUE,
+    `CLIENT_ID`     VARCHAR(100) NOT NULL UNIQUE,
+    `CLIENT_SECRET` VARCHAR(100) NOT NULL UNIQUE,
     `REDIRECT_URI`  VARCHAR(2000),
-    `CREATED_AT`    timestamp default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL
+    `CREATED_AT`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY`    VARCHAR(64)  NOT NULL,
+    `UPDATED_AT`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `UPDATED_BY`    VARCHAR(64)  NOT NULL
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 2
   DEFAULT CHARSET = utf8mb4

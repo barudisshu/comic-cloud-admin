@@ -4,8 +4,12 @@
 package info.galudisu.comic.model;
 
 
-import info.galudisu.comic.model.tables.Accounts;
+import info.galudisu.comic.model.tables.Account;
+import info.galudisu.comic.model.tables.AccountRole;
 import info.galudisu.comic.model.tables.Clients;
+import info.galudisu.comic.model.tables.Permission;
+import info.galudisu.comic.model.tables.Role;
+import info.galudisu.comic.model.tables.RolePermission;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,13 +32,21 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Comic extends SchemaImpl {
 
-    private static final long serialVersionUID = 200140029;
+    private static final long serialVersionUID = -1672846887;
 
     public static final Comic COMIC = new Comic();
 
-    public final Accounts ACCOUNTS = info.galudisu.comic.model.tables.Accounts.ACCOUNTS;
+    public final Account ACCOUNT = info.galudisu.comic.model.tables.Account.ACCOUNT;
+
+    public final AccountRole ACCOUNT_ROLE = info.galudisu.comic.model.tables.AccountRole.ACCOUNT_ROLE;
 
     public final Clients CLIENTS = info.galudisu.comic.model.tables.Clients.CLIENTS;
+
+    public final Permission PERMISSION = info.galudisu.comic.model.tables.Permission.PERMISSION;
+
+    public final Role ROLE = info.galudisu.comic.model.tables.Role.ROLE;
+
+    public final RolePermission ROLE_PERMISSION = info.galudisu.comic.model.tables.RolePermission.ROLE_PERMISSION;
 
     private Comic() {
         super("comic", null);
@@ -55,7 +67,11 @@ public class Comic extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Accounts.ACCOUNTS,
-            Clients.CLIENTS);
+            Account.ACCOUNT,
+            AccountRole.ACCOUNT_ROLE,
+            Clients.CLIENTS,
+            Permission.PERMISSION,
+            Role.ROLE,
+            RolePermission.ROLE_PERMISSION);
     }
 }

@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Clients extends TableImpl<ClientsRecord> {
 
-    private static final long serialVersionUID = 1971102463;
+    private static final long serialVersionUID = -808335898;
 
     public static final Clients CLIENTS = new Clients();
 
@@ -62,6 +62,12 @@ public class Clients extends TableImpl<ClientsRecord> {
     public final TableField<ClientsRecord, String> REDIRECT_URI = createField("REDIRECT_URI", org.jooq.impl.SQLDataType.VARCHAR(2000), this, "");
 
     public final TableField<ClientsRecord, Instant> CREATED_AT = createField("CREATED_AT", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "", new InstantConverter());
+
+    public final TableField<ClientsRecord, String> CREATED_BY = createField("CREATED_BY", org.jooq.impl.SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    public final TableField<ClientsRecord, Instant> UPDATED_AT = createField("UPDATED_AT", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "", new InstantConverter());
+
+    public final TableField<ClientsRecord, String> UPDATED_BY = createField("UPDATED_BY", org.jooq.impl.SQLDataType.VARCHAR(64).nullable(false), this, "");
 
     public Clients() {
         this(DSL.name("clients"), null);

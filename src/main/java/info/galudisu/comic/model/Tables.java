@@ -4,8 +4,12 @@
 package info.galudisu.comic.model;
 
 
-import info.galudisu.comic.model.tables.Accounts;
+import info.galudisu.comic.model.tables.Account;
+import info.galudisu.comic.model.tables.AccountRole;
 import info.galudisu.comic.model.tables.Clients;
+import info.galudisu.comic.model.tables.Permission;
+import info.galudisu.comic.model.tables.Role;
+import info.galudisu.comic.model.tables.RolePermission;
 
 import javax.annotation.Generated;
 
@@ -20,7 +24,15 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
-    public static final Accounts ACCOUNTS = info.galudisu.comic.model.tables.Accounts.ACCOUNTS;
+    public static final Account ACCOUNT = info.galudisu.comic.model.tables.Account.ACCOUNT;
+
+    public static final AccountRole ACCOUNT_ROLE = info.galudisu.comic.model.tables.AccountRole.ACCOUNT_ROLE;
 
     public static final Clients CLIENTS = info.galudisu.comic.model.tables.Clients.CLIENTS;
+
+    public static final Permission PERMISSION = info.galudisu.comic.model.tables.Permission.PERMISSION;
+
+    public static final Role ROLE = info.galudisu.comic.model.tables.Role.ROLE;
+
+    public static final RolePermission ROLE_PERMISSION = info.galudisu.comic.model.tables.RolePermission.ROLE_PERMISSION;
 }
