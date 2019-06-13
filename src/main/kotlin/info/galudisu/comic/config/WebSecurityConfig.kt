@@ -21,9 +21,12 @@ import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager
 import org.apache.shiro.web.mgt.DefaultWebSubjectFactory
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager
+import org.apache.shiro.web.session.mgt.WebSessionManager
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.redis.core.RedisTemplate
 import java.util.*
 import javax.servlet.Filter
 
@@ -32,15 +35,15 @@ import javax.servlet.Filter
 class WebSecurityConfig {
 
     @Bean(name = ["realm"])
-    fun realm(userService: UserService): Realm {
-        val securityRealm = SecurityRealm(userService)
+    fun realm(userService: UserService, redisTemplate: RedisTemplate<*,*>): Realm {
+        val securityRealm = SecurityRealm(userService, redisTemplate)
         securityRealm.credentialsMatcher = credentialsMatcher()
         securityRealm.setAuthenticationTokenClass(StatelessAuthenticationToken::class.java)
         return securityRealm
     }
 
     @Bean("securityManager")
-    fun securityManager(realm: Realm, sessionManager: SessionManager, subjectFactory: DefaultWebSubjectFactory): SecurityManager {
+    fun securityManager(realm: Realm, sessionManager: WebSessionManager, subjectFactory: DefaultWebSubjectFactory): SecurityManager {
         val securityManager = DefaultWebSecurityManager()
         securityManager.subjectFactory = subjectFactory
         securityManager.setRealm(realm)
@@ -58,8 +61,8 @@ class WebSecurityConfig {
     }
 
     @Bean
-    fun sessionManager(): DefaultSessionManager {
-        val sessionManager = DefaultSessionManager()
+    fun sessionManager(): WebSessionManager {
+        val sessionManager = DefaultWebSessionManager()
         sessionManager.isSessionValidationSchedulerEnabled = false
         return sessionManager
     }
