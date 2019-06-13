@@ -2,6 +2,7 @@ package info.galudisu.comic.api.account
 
 import info.galudisu.comic.api.account.domain.repo.AccountRepo
 import org.apache.commons.codec.digest.Crypt
+import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
@@ -19,6 +20,7 @@ class AccountController(
     fun accountsGetOne(@PathVariable id: String) = accountRepo.requireOneById(id).toAccountDto()
 
     @PutMapping
+    @RequiresPermissions("SA")
     fun accountsCreateOne(@RequestBody req: AccountsCreateRequest) =
             req.toAccountRecord()
                     .let { accountRepo.insert(it) }

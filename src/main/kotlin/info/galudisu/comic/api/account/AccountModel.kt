@@ -24,6 +24,8 @@ fun AccountsCreateRequest.toAccountRecord(): AccountRecord {
     accountsRecord.salt = salt
     accountsRecord.email = this.email
     accountsRecord.phone = this.phone
+    accountsRecord.createdBy = ""
+    accountsRecord.updatedBy = ""
     return accountsRecord
 }
 

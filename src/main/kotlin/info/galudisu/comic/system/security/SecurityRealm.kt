@@ -1,7 +1,5 @@
 package info.galudisu.comic.system.security
 
-import info.galudisu.comic.system.enums.AuthType
-import info.galudisu.comic.system.enums.AuthType.Companion.getAuthType
 import info.galudisu.comic.system.user.UserService
 import org.apache.shiro.authc.AuthenticationInfo
 import org.apache.shiro.authc.AuthenticationToken
@@ -49,16 +47,4 @@ class SecurityRealm(private val userService: UserService) : AuthorizingRealm() {
         return null
     }
 
-    override fun assertCredentialsMatch(token: AuthenticationToken?, info: AuthenticationInfo?) {
-        var skipPasswordCheck = true
-        if (token is SecurityAuthenticationToken) {
-            val authType = getAuthType(token.type)
-            if (AuthType.WEB.type == authType.type || AuthType.API.type == authType.type) {
-                skipPasswordCheck = false
-            }
-        }
-        if (!skipPasswordCheck) {
-            super.assertCredentialsMatch(token, info)
-        }
-    }
 }

@@ -26,8 +26,9 @@ class Swagger(private val apiConfig: ApiConfig) {
             .select()
             .apis(Predicates.not(RequestHandlerSelectors.basePackage(apiConfig.getBasePackageName())))
             .build()
+
+    private fun ApiConfig.getBasePackageName() = this::class.java.`package`.name
+    private fun ApiConfig.toApiInfo() = springfox.documentation.builders.ApiInfoBuilder().title(this.title).build()
+    private fun ApiConfig.toDocket() = springfox.documentation.spring.web.plugins.Docket(springfox.documentation.spi.DocumentationType.SWAGGER_2).apiInfo(this.toApiInfo())
 }
 
-private fun ApiConfig.getBasePackageName() = this::class.java.`package`.name
-private fun ApiConfig.toApiInfo() = springfox.documentation.builders.ApiInfoBuilder().title(this.title).build()
-private fun ApiConfig.toDocket() = springfox.documentation.spring.web.plugins.Docket(springfox.documentation.spi.DocumentationType.SWAGGER_2).apiInfo(this.toApiInfo())
