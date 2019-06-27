@@ -6,8 +6,8 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-server:
-  port: 9000
-  servlet:
-    context-path: /api/comic/
+  redis:
+    host: localhost
+    port: 6379
+    password:
 ---

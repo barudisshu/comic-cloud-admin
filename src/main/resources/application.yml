@@ -10,8 +10,19 @@ spring:
     name: "comic-cloud-admin"
   flyway:
     baseline-on-migrate: true
-
+  redis:
+    database: 0
+    jedis.pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 0
   jackson:
     default-property-inclusion: non_null
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+server:
+  port: 9000
+  servlet:
+    context-path: /api/comic/
 ---
