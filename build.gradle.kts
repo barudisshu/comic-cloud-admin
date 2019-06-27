@@ -97,6 +97,8 @@ dependencies {
     compile("org.apache.commons:commons-collections4:4.3")
     compile("org.apache.commons:commons-math3:3.6.1")
     compile("commons-io:commons-io:2.6")
+    // jwt
+    compile("com.auth0:java-jwt:3.2.0")
     // gson
     compile("com.google.code.gson:gson:2.8.5")
     // okhttp

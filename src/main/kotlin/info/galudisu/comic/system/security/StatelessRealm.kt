@@ -13,11 +13,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.RedisTemplate
 
-class SecurityRealm(private val userService: UserService,
-                    private val redisTemplate: RedisTemplate<*,*>) : AuthorizingRealm() {
+class StatelessRealm(private val userService: UserService,
+                     private val redisTemplate: RedisTemplate<*,*>) : AuthorizingRealm() {
 
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(SecurityRealm::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(StatelessRealm::class.java)
     }
 
     override fun supports(token: AuthenticationToken?): Boolean {

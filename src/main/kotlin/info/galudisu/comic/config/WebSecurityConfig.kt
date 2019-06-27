@@ -2,7 +2,7 @@ package info.galudisu.comic.config
 
 import info.galudisu.comic.system.filter.StatelessAccessControlFilter
 import info.galudisu.comic.system.security.SecurityConstants
-import info.galudisu.comic.system.security.SecurityRealm
+import info.galudisu.comic.system.security.StatelessRealm
 import info.galudisu.comic.system.security.StatelessAuthenticationToken
 import info.galudisu.comic.system.security.StatelessDefaultSubjectFactory
 import info.galudisu.comic.system.user.UserService
@@ -12,8 +12,6 @@ import org.apache.shiro.mgt.DefaultSessionStorageEvaluator
 import org.apache.shiro.mgt.DefaultSubjectDAO
 import org.apache.shiro.mgt.SecurityManager
 import org.apache.shiro.realm.Realm
-import org.apache.shiro.session.mgt.DefaultSessionManager
-import org.apache.shiro.session.mgt.SessionManager
 import org.apache.shiro.spring.LifecycleBeanPostProcessor
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean
@@ -36,7 +34,7 @@ class WebSecurityConfig {
 
     @Bean(name = ["realm"])
     fun realm(userService: UserService, redisTemplate: RedisTemplate<*,*>): Realm {
-        val securityRealm = SecurityRealm(userService, redisTemplate)
+        val securityRealm = StatelessRealm(userService, redisTemplate)
         securityRealm.credentialsMatcher = credentialsMatcher()
         securityRealm.setAuthenticationTokenClass(StatelessAuthenticationToken::class.java)
         return securityRealm

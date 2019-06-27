@@ -2,13 +2,15 @@ package info.galudisu.comic.system.filter
 
 import info.galudisu.comic.system.security.StatelessAuthenticationToken
 import org.apache.shiro.web.filter.AccessControlFilter
+import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter
 import java.io.IOException
 import java.util.HashMap
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
+import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class StatelessAccessControlFilter : AccessControlFilter() {
+class StatelessAccessControlFilter : BasicHttpAuthenticationFilter() {
 
     @Throws(Exception::class)
     override fun isAccessAllowed(request: ServletRequest, response: ServletResponse, mappedValue: Any): Boolean {
