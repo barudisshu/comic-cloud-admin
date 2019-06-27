@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="1800">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <ThresholdFilter level="TRACE" onMatch="ACCEPT"/>
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <logger name="org.jooq.tools" level="DEBUG"/>
+        <logger name="info.galudisu.comic" level="DEBUG"/>
+        <Root level="INFO">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -24,11 +24,11 @@ import org.jooq.impl.CatalogImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultCatalog extends CatalogImpl {
 
-    private static final long serialVersionUID = 978896400;
+    private static final long serialVersionUID = 1549142416;
 
     public static final DefaultCatalog DEFAULT_CATALOG = new DefaultCatalog();
 
-    public final Comic COMIC = info.galudisu.comic.model.Comic.COMIC;
+    public final ComicCloudAdmin COMIC_CLOUD_ADMIN = info.galudisu.comic.model.ComicCloudAdmin.COMIC_CLOUD_ADMIN;
 
     private DefaultCatalog() {
         super("");
@@ -43,6 +43,6 @@ public class DefaultCatalog extends CatalogImpl {
 
     private final List<Schema> getSchemas0() {
         return Arrays.<Schema>asList(
-            Comic.COMIC);
+            ComicCloudAdmin.COMIC_CLOUD_ADMIN);
     }
 }

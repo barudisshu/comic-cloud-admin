@@ -1,5 +1,6 @@
 package info.galudisu.comic.api.account
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import info.galudisu.comic.model.tables.records.AccountRecord
 import org.apache.commons.codec.digest.Crypt
 import org.apache.commons.codec.digest.DigestUtils

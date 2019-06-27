@@ -10,4 +10,8 @@ spring:
     name: "comic-cloud-admin"
   flyway:
     baseline-on-migrate: true
+
+  jackson:
+    default-property-inclusion: non_null
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 ---

@@ -5,7 +5,7 @@ package info.galudisu.comic.model.tables;
 
 
 import info.galudisu.comic.converter.InstantConverter;
-import info.galudisu.comic.model.Comic;
+import info.galudisu.comic.model.ComicCloudAdmin;
 import info.galudisu.comic.model.Indexes;
 import info.galudisu.comic.model.Keys;
 import info.galudisu.comic.model.tables.records.ClientsRecord;
@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Clients extends TableImpl<ClientsRecord> {
 
-    private static final long serialVersionUID = -808335898;
+    private static final long serialVersionUID = 717802144;
 
     public static final Clients CLIENTS = new Clients();
 
@@ -95,7 +95,7 @@ public class Clients extends TableImpl<ClientsRecord> {
 
     @Override
     public Schema getSchema() {
-        return Comic.COMIC;
+        return ComicCloudAdmin.COMIC_CLOUD_ADMIN;
     }
 
     @Override

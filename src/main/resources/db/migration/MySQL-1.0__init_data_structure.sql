@@ -4,7 +4,7 @@ Navicat MySQL Data Transfer
 Source Server         : MySQL - 127.0.0.1
 Source Server Version : 80012
 Source Host           : localhost:3306
-Source Database       : comic
+Source Database       : comic-cloud-admin
 
 Target Server Type    : MYSQL
 Target Server Version : 80012
@@ -13,10 +13,10 @@ File Encoding         : 65001
 Date: 2018-09-03 18:56:59
 */
 
-drop database `comic`;
-create database `comic`;
+drop database `comic-cloud-admin`;
+create database `comic-cloud-admin`;
 
-use `comic`;
+use `comic-cloud-admin`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 

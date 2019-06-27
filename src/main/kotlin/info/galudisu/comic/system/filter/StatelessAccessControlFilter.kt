@@ -3,6 +3,7 @@ package info.galudisu.comic.system.filter
 import info.galudisu.comic.system.security.StatelessAuthenticationToken
 import org.apache.shiro.web.filter.AccessControlFilter
 import java.io.IOException
+import java.util.HashMap
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletResponse
@@ -19,16 +20,18 @@ class StatelessAccessControlFilter : AccessControlFilter() {
         val clientDigest = request.getParameter("clientDigest")
         val username = request.getParameter("username")
 
+        val params = HashMap(request.parameterMap)
+        params.remove("clientDigest")
+
         val token = StatelessAuthenticationToken(username, clientDigest)
 
-        try {
+        return try {
             getSubject(request, response).login(token)
-            return true
+            true
         } catch (e: Exception) {
             e.printStackTrace()
             onLoginFail(response)
-
-            return false
+            false
         }
 
     }

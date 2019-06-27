@@ -47,6 +47,11 @@ configurations {
     runtimeClasspath {
         extendsFrom(developmentOnly)
     }
+    implementation {
+        exclude(module = "spring-boot-starter-tomcat")
+        exclude(module = "spring-boot-starter-logging")
+        exclude(module = "undertow-websockets-jsr")
+    }
 }
 
 repositories {
@@ -55,12 +60,14 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-quartz")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-undertow")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -75,8 +82,6 @@ dependencies {
     compile("org.jooq:jooq:$jooQVersion")
     // flyway
     compile("org.flywaydb:flyway-core:$flywayVersion")
-    // log
-    compile("net.logstash.logback:logstash-logback-encoder:4.11")
     // jackson json
     compile("com.fasterxml.jackson.module:jackson-modules-java8:$jacksonVersion")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
@@ -100,7 +105,7 @@ dependencies {
 
 configure<FlywayExtension> {
     driver = "com.mysql.cj.jdbc.Driver"
-    url = "jdbc:mysql://localhost/comic?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
+    url = "jdbc:mysql://localhost/comic-cloud-admin?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
     user = dbUser
     password = dbPasswd
     sqlMigrationPrefix = "MySQL-"
@@ -126,7 +131,7 @@ tasks {
                 .withName("org.jooq.meta.mysql.MySQLDatabase")
                 .withExcludes("flyway_schema_history")
                 .withIncludes(".*")
-                .withInputSchema("comic")
+                .withInputSchema("comic-cloud-admin")
                 .withForcedTypes(ForcedType()
                         .withUserType("java.time.Instant")
                         .withConverter("info.galudisu.comic.converter.InstantConverter")
@@ -135,7 +140,7 @@ tasks {
         val configuration = Configuration().apply {
             jdbc = Jdbc().apply {
                 driver = "com.mysql.cj.jdbc.Driver"
-                url = "jdbc:mysql://localhost/comic?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
+                url = "jdbc:mysql://localhost/comic-cloud-admin?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
                 user = dbUser
                 password = dbPasswd
                 schema = "public"

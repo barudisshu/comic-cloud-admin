@@ -82,8 +82,8 @@ class WebSecurityConfig {
         filterFactoryBean.loginUrl = SecurityConstants.AUTH_WEB_PATH
         filterFactoryBean.successUrl = SecurityConstants.AUTH_LOGIN_SUCCESS_PATH
         filterFactoryBean.securityManager = securityManager
-        filterFactoryBean.filters = filters()
         filterFactoryBean.filterChainDefinitionMap = shiroFilterChainDefinition().filterChainMap
+        filterFactoryBean.filters = filters()
         return filterFactoryBean
     }
 
@@ -101,7 +101,6 @@ class WebSecurityConfig {
         chainDefinition.addPathDefinition("/captcha", "anon")
 
         chainDefinition.addPathDefinition("/api/**", "authcApi")
-        chainDefinition.addPathDefinition("/**", "authc")
         return chainDefinition
     }
 
