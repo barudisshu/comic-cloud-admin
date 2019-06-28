@@ -10,11 +10,11 @@ import java.security.SecureRandom
 
 object PasswordHelper {
 
-    val ALGORITHM = "SHA-1"
+    private const val ALGORITHM = "SHA-1"
 
-    val HASHITERATIONS = 2
+    private const val HASHITERATIONS = 2
 
-    private val SALT_SIZE = 22
+    private const val SALT_SIZE = 22
 
     private val random = SecureRandom()
 
@@ -41,12 +41,16 @@ object PasswordHelper {
         return encodeHex(salt)
     }
 
-    fun encryptPassword(user: UsersDto): String {
+    fun encryptPassword(password: String, salt: String): String {
         return SimpleHash(
                 ALGORITHM,
-                user.password,
-                ByteSource.Util.bytes(user.salt),
+                password,
+                ByteSource.Util.bytes(salt),
                 HASHITERATIONS).toHex()
+    }
+
+    fun encryptPassword(user: UsersDto): String {
+        return encryptPassword(user.password, user.salt)
     }
 
 }

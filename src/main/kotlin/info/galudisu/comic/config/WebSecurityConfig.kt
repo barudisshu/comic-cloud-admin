@@ -27,6 +27,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.core.RedisTemplate
 import java.util.*
 import javax.servlet.Filter
+import org.springframework.web.filter.DelegatingFilterProxy
+import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.context.annotation.DependsOn
 
 
 @Configuration
@@ -76,14 +79,16 @@ class WebSecurityConfig {
     fun statelessAuthcFilter(): StatelessAccessControlFilter {
         return StatelessAccessControlFilter()
     }
-    @Bean
-    fun shiroFilterFactoryBean(securityManager: SecurityManager): ShiroFilterFactoryBean {
+
+    @Bean("shiroFilter")
+    fun shiroFilterFactoryBean(securityManager: SecurityManager, filterChain: ShiroFilterChainDefinition): ShiroFilterFactoryBean {
         val filterFactoryBean = ShiroFilterFactoryBean()
 
-        filterFactoryBean.loginUrl = SecurityConstants.AUTH_WEB_PATH
+        filterFactoryBean.loginUrl = SecurityConstants.AUTH_LOGIN_PATH
         filterFactoryBean.successUrl = SecurityConstants.AUTH_LOGIN_SUCCESS_PATH
+        filterFactoryBean.unauthorizedUrl = SecurityConstants.AUTH_UNAUTHORIZED_PATH
         filterFactoryBean.securityManager = securityManager
-        filterFactoryBean.filterChainDefinitionMap = shiroFilterChainDefinition().filterChainMap
+        filterFactoryBean.filterChainDefinitionMap = filterChain.filterChainMap
         filterFactoryBean.filters = filters()
         return filterFactoryBean
     }
@@ -93,6 +98,7 @@ class WebSecurityConfig {
         val chainDefinition = DefaultShiroFilterChainDefinition()
         chainDefinition.addPathDefinition("/login", "anon")
         chainDefinition.addPathDefinition("/logout", "logout")
+        chainDefinition.addPathDefinition("/401", "anon")
 
         chainDefinition.addPathDefinition("/swagger-ui.html", "anon")
         chainDefinition.addPathDefinition("/swagger-resources/**", "anon")
@@ -101,7 +107,7 @@ class WebSecurityConfig {
         chainDefinition.addPathDefinition("/webjars/**", "anon")
         chainDefinition.addPathDefinition("/captcha", "anon")
 
-        chainDefinition.addPathDefinition("/api/**", "authcApi")
+        chainDefinition.addPathDefinition("/*", "authcApi")
         return chainDefinition
     }
 
@@ -121,6 +127,16 @@ class WebSecurityConfig {
         val advisor = AuthorizationAttributeSourceAdvisor()
         advisor.securityManager = securityManager
         return advisor
+    }
+
+    @Bean
+    fun delegatingFilterProxy(): FilterRegistrationBean<*> {
+        val filterRegistrationBean = FilterRegistrationBean<DelegatingFilterProxy>()
+        val proxy = DelegatingFilterProxy()
+        proxy.setTargetFilterLifecycle(true)
+        proxy.setTargetBeanName("shiroFilter")
+        filterRegistrationBean.filter = proxy
+        return filterRegistrationBean
     }
 
     @Bean

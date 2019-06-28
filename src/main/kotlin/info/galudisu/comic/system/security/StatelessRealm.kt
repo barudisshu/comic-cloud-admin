@@ -1,6 +1,9 @@
 package info.galudisu.comic.system.security
 
 import info.galudisu.comic.system.user.UserService
+import info.galudisu.comic.utils.JWTUtils
+import org.apache.commons.codec.digest.Crypt
+import org.apache.shiro.authc.AuthenticationException
 import org.apache.shiro.authc.AuthenticationInfo
 import org.apache.shiro.authc.AuthenticationToken
 import org.apache.shiro.authc.SimpleAuthenticationInfo
@@ -38,18 +41,25 @@ class StatelessRealm(private val userService: UserService,
         return info
     }
 
-    override fun doGetAuthenticationInfo(token: AuthenticationToken?): AuthenticationInfo? {
+    override fun doGetAuthenticationInfo(auth: AuthenticationToken?): AuthenticationInfo? {
         logger.debug("doGetAuthenticationInfo......")
-        val info: SimpleAuthenticationInfo
-        val user = userService.findByUsername(token?.principal.toString())
 
-        if (user != null) {
-            val securityUser = SecurityUser(user.username, user.username)
-            info = SimpleAuthenticationInfo(securityUser, user.password, user.username)
-            info.credentialsSalt = ByteSource.Util.bytes(user.salt)
-            return info
-        }
-        return null
+        val token = auth?.credentials as String
+        val username = JWTUtils.getUsername(token)
+
+        username?.let {
+            val user = userService.findByUsername(username)
+
+            user?.let {
+                when(JWTUtils.verify(token, username, user.password)) {
+                    false -> throw AuthenticationException("Username or password error")
+                    true -> {
+                        val salt = ByteSource.Util.bytes(user.id)
+                        return SimpleAuthenticationInfo(token, token, salt, user.username)
+                    }
+                }
+            } ?: throw AuthenticationException("User did't existed!")
+        } ?: throw AuthenticationException("token invalid")
     }
 
 }

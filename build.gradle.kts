@@ -103,6 +103,8 @@ dependencies {
     compile("com.google.code.gson:gson:2.8.5")
     // okhttp
     compile("com.squareup.okhttp3:okhttp:3.14.2")
+    // kaptcha
+    compile("com.github.penggle:kaptcha:2.3.2")
 }
 
 configure<FlywayExtension> {
