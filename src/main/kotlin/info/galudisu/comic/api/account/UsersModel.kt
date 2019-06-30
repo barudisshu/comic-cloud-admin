@@ -21,8 +21,6 @@ fun UsersCreateRequest.toUsersRecord(): UsersRecord {
     accountsRecord.password = BCryptPasswordService().encryptPassword(rawPwd)
     accountsRecord.email = this.email
     accountsRecord.phone = this.phone
-    accountsRecord.createdBy = ""
-    accountsRecord.updatedBy = ""
     return accountsRecord
 }
 

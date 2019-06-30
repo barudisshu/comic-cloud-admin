@@ -50,6 +50,7 @@ configurations {
     implementation {
         exclude(module = "spring-boot-starter-tomcat")
         exclude(module = "spring-boot-starter-logging")
+        exclude(module = "tomcat-jdbc")
         exclude(module = "undertow-websockets-jsr")
     }
 }
@@ -65,9 +66,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-quartz")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.apache.shiro:shiro-spring-boot-web-starter:$shiroVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -80,10 +83,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("com.ninja-squad:springmockk:1.1.2")
-    // shiro
-    compile("org.apache.shiro:shiro-core:$shiroVersion")
-    compile("org.apache.shiro:shiro-web:$shiroVersion")
-    compile("org.apache.shiro:shiro-spring:$shiroVersion")
     // jooq
     compile("org.jooq:jooq:$jooQVersion")
     // flyway

@@ -4,18 +4,17 @@ import info.galudisu.comic.system.security.*
 import org.apache.shiro.authc.credential.PasswordMatcher
 import org.apache.shiro.mgt.SecurityManager
 import org.apache.shiro.realm.Realm
+import org.apache.shiro.spring.LifecycleBeanPostProcessor
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import javax.sql.DataSource
-import org.springframework.web.filter.DelegatingFilterProxy
-import org.springframework.boot.web.servlet.FilterRegistrationBean
-
-
 
 @Configuration
 class SecurityConfig {
@@ -67,7 +66,7 @@ class SecurityConfig {
         return chainDefinition
     }
 
-    @Bean("shiroFilter")
+    @Bean
     fun shiroFilterFactoryBean(securityManager: SecurityManager,
                                jwtUsernamePasswordAuthFilter: JwtUsernamePasswordAuthFilter,
                                jwtTokenAuthFilter: JwtTokenAuthFilter,
@@ -80,13 +79,24 @@ class SecurityConfig {
         return filterFactoryBean
     }
 
+    @Bean(name = ["lifecycleBeanPostProcessor"])
+    fun getLifecycleBeanPostProcessor(): LifecycleBeanPostProcessor {
+        return LifecycleBeanPostProcessor()
+    }
+
     @Bean
-    fun delegatingFilterProxy(): FilterRegistrationBean<*> {
-        val filterRegistrationBean = FilterRegistrationBean<DelegatingFilterProxy>()
-        val proxy = DelegatingFilterProxy()
-        proxy.setTargetFilterLifecycle(true)
-        proxy.setTargetBeanName("shiroFilter")
-        filterRegistrationBean.filter = proxy
-        return filterRegistrationBean
+    fun getDefaultAdvisorAutoProxyCreator(): DefaultAdvisorAutoProxyCreator {
+        val autoProxyCreator = DefaultAdvisorAutoProxyCreator()
+        autoProxyCreator.isUsePrefix = true
+        autoProxyCreator.isProxyTargetClass = true
+        return autoProxyCreator
+    }
+
+    @Bean
+    fun getAuthorizationAttributeSourceAdvisor(
+            securityManager: DefaultWebSecurityManager): AuthorizationAttributeSourceAdvisor {
+        val advisor = AuthorizationAttributeSourceAdvisor()
+        advisor.securityManager = securityManager
+        return advisor
     }
 }

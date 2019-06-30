@@ -33,8 +33,10 @@ public class Indexes {
     public static final Index ROLES_PERMISSIONS_PRIMARY = Indexes0.ROLES_PERMISSIONS_PRIMARY;
     public static final Index ROLES_PERMISSIONS_ROLES_PERMISSIONS_PERMISSION_IDX = Indexes0.ROLES_PERMISSIONS_ROLES_PERMISSIONS_PERMISSION_IDX;
     public static final Index ROLES_PERMISSIONS_ROLES_PERMISSIONS_ROLE_NAME_IDX = Indexes0.ROLES_PERMISSIONS_ROLES_PERMISSIONS_ROLE_NAME_IDX;
+    public static final Index ROLES_PERMISSIONS_UID = Indexes0.ROLES_PERMISSIONS_UID;
     public static final Index USER_ROLES_ID = Indexes0.USER_ROLES_ID;
     public static final Index USER_ROLES_PRIMARY = Indexes0.USER_ROLES_PRIMARY;
+    public static final Index USER_ROLES_UID = Indexes0.USER_ROLES_UID;
     public static final Index USER_ROLES_USER_ROLES_ROLE_NAME_IDX = Indexes0.USER_ROLES_USER_ROLES_ROLE_NAME_IDX;
     public static final Index USER_ROLES_USER_ROLES_USERNAME_IDX = Indexes0.USER_ROLES_USER_ROLES_USERNAME_IDX;
     public static final Index USERS_ID = Indexes0.USERS_ID;
@@ -51,8 +53,10 @@ public class Indexes {
         public static Index ROLES_PERMISSIONS_PRIMARY = Internal.createIndex("PRIMARY", RolesPermissions.ROLES_PERMISSIONS, new OrderField[] { RolesPermissions.ROLES_PERMISSIONS.ID }, true);
         public static Index ROLES_PERMISSIONS_ROLES_PERMISSIONS_PERMISSION_IDX = Internal.createIndex("ROLES_PERMISSIONS_PERMISSION_IDX", RolesPermissions.ROLES_PERMISSIONS, new OrderField[] { RolesPermissions.ROLES_PERMISSIONS.PERMISSION }, true);
         public static Index ROLES_PERMISSIONS_ROLES_PERMISSIONS_ROLE_NAME_IDX = Internal.createIndex("ROLES_PERMISSIONS_ROLE_NAME_IDX", RolesPermissions.ROLES_PERMISSIONS, new OrderField[] { RolesPermissions.ROLES_PERMISSIONS.ROLE_NAME }, true);
+        public static Index ROLES_PERMISSIONS_UID = Internal.createIndex("UID", RolesPermissions.ROLES_PERMISSIONS, new OrderField[] { RolesPermissions.ROLES_PERMISSIONS.UID }, true);
         public static Index USER_ROLES_ID = Internal.createIndex("ID", UserRoles.USER_ROLES, new OrderField[] { UserRoles.USER_ROLES.ID }, true);
         public static Index USER_ROLES_PRIMARY = Internal.createIndex("PRIMARY", UserRoles.USER_ROLES, new OrderField[] { UserRoles.USER_ROLES.ID }, true);
+        public static Index USER_ROLES_UID = Internal.createIndex("UID", UserRoles.USER_ROLES, new OrderField[] { UserRoles.USER_ROLES.UID }, true);
         public static Index USER_ROLES_USER_ROLES_ROLE_NAME_IDX = Internal.createIndex("USER_ROLES_ROLE_NAME_IDX", UserRoles.USER_ROLES, new OrderField[] { UserRoles.USER_ROLES.ROLE_NAME }, true);
         public static Index USER_ROLES_USER_ROLES_USERNAME_IDX = Internal.createIndex("USER_ROLES_USERNAME_IDX", UserRoles.USER_ROLES, new OrderField[] { UserRoles.USER_ROLES.USERNAME }, true);
         public static Index USERS_ID = Internal.createIndex("ID", Users.USERS, new OrderField[] { Users.USERS.ID }, true);
