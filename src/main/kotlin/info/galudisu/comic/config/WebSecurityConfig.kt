@@ -2,7 +2,7 @@ package info.galudisu.comic.config
 
 import info.galudisu.comic.system.filter.StatelessAccessControlFilter
 import info.galudisu.comic.system.security.SecurityConstants
-import info.galudisu.comic.system.security.StatelessRealm
+import info.galudisu.comic.system.security.StatelessAuthorizationRealm
 import info.galudisu.comic.system.security.StatelessAuthenticationToken
 import info.galudisu.comic.system.security.StatelessDefaultSubjectFactory
 import info.galudisu.comic.system.user.UserService
@@ -29,7 +29,6 @@ import java.util.*
 import javax.servlet.Filter
 import org.springframework.web.filter.DelegatingFilterProxy
 import org.springframework.boot.web.servlet.FilterRegistrationBean
-import org.springframework.context.annotation.DependsOn
 
 
 @Configuration
@@ -37,8 +36,7 @@ class WebSecurityConfig {
 
     @Bean(name = ["realm"])
     fun realm(userService: UserService, redisTemplate: RedisTemplate<*,*>): Realm {
-        val securityRealm = StatelessRealm(userService, redisTemplate)
-        securityRealm.credentialsMatcher = credentialsMatcher()
+        val securityRealm = StatelessAuthorizationRealm(userService, redisTemplate)
         securityRealm.setAuthenticationTokenClass(StatelessAuthenticationToken::class.java)
         return securityRealm
     }
@@ -66,13 +64,6 @@ class WebSecurityConfig {
         val sessionManager = DefaultWebSessionManager()
         sessionManager.isSessionValidationSchedulerEnabled = false
         return sessionManager
-    }
-    @Bean
-    fun credentialsMatcher(): CredentialsMatcher {
-        val credentialsMatcher = HashedCredentialsMatcher(SecurityConstants.HASH_ALGORITHM)
-        credentialsMatcher.hashIterations = SecurityConstants.HASH_INTERATIONS
-        credentialsMatcher.isStoredCredentialsHexEncoded = true
-        return credentialsMatcher
     }
 
     @Bean

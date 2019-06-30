@@ -2,7 +2,6 @@ package info.galudisu.comic.system.security
 
 import info.galudisu.comic.system.user.UserService
 import info.galudisu.comic.utils.JWTUtils
-import org.apache.commons.codec.digest.Crypt
 import org.apache.shiro.authc.AuthenticationException
 import org.apache.shiro.authc.AuthenticationInfo
 import org.apache.shiro.authc.AuthenticationToken
@@ -16,11 +15,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.RedisTemplate
 
-class StatelessRealm(private val userService: UserService,
-                     private val redisTemplate: RedisTemplate<*,*>) : AuthorizingRealm() {
+class StatelessAuthorizationRealm(private val userService: UserService,
+                                  private val redisTemplate: RedisTemplate<*,*>) : AuthorizingRealm() {
 
     companion object {
-        private val logger: Logger = LoggerFactory.getLogger(StatelessRealm::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(StatelessAuthorizationRealm::class.java)
     }
 
     override fun supports(token: AuthenticationToken?): Boolean {
