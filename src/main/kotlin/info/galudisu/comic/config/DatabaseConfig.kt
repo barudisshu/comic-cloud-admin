@@ -14,7 +14,7 @@ import javax.sql.DataSource
 
 
 @Configuration
-class Config : TransactionManagementConfigurer {
+class DatabaseConfig : TransactionManagementConfigurer {
 
     @Autowired
     internal var dataSource: DataSource? = null
@@ -39,6 +39,6 @@ class Config : TransactionManagementConfigurer {
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(Config::class.java)
+        private val logger = LoggerFactory.getLogger(DatabaseConfig::class.java)
     }
 }

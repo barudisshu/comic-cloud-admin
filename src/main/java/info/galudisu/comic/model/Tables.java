@@ -4,12 +4,9 @@
 package info.galudisu.comic.model;
 
 
-import info.galudisu.comic.model.tables.Account;
-import info.galudisu.comic.model.tables.AccountRole;
-import info.galudisu.comic.model.tables.Clients;
-import info.galudisu.comic.model.tables.Permission;
-import info.galudisu.comic.model.tables.Role;
-import info.galudisu.comic.model.tables.RolePermission;
+import info.galudisu.comic.model.tables.RolesPermissions;
+import info.galudisu.comic.model.tables.UserRoles;
+import info.galudisu.comic.model.tables.Users;
 
 import javax.annotation.Generated;
 
@@ -24,15 +21,9 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
-    public static final Account ACCOUNT = info.galudisu.comic.model.tables.Account.ACCOUNT;
+    public static final RolesPermissions ROLES_PERMISSIONS = info.galudisu.comic.model.tables.RolesPermissions.ROLES_PERMISSIONS;
 
-    public static final AccountRole ACCOUNT_ROLE = info.galudisu.comic.model.tables.AccountRole.ACCOUNT_ROLE;
+    public static final UserRoles USER_ROLES = info.galudisu.comic.model.tables.UserRoles.USER_ROLES;
 
-    public static final Clients CLIENTS = info.galudisu.comic.model.tables.Clients.CLIENTS;
-
-    public static final Permission PERMISSION = info.galudisu.comic.model.tables.Permission.PERMISSION;
-
-    public static final Role ROLE = info.galudisu.comic.model.tables.Role.ROLE;
-
-    public static final RolePermission ROLE_PERMISSION = info.galudisu.comic.model.tables.RolePermission.ROLE_PERMISSION;
+    public static final Users USERS = info.galudisu.comic.model.tables.Users.USERS;
 }

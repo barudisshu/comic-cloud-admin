@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 @Configuration
 @EnableSwagger2
-class Swagger(private val apiConfig: ApiConfig) {
+class SwaggerConfig(private val apiConfig: ApiConfig) {
 
     @Bean
     fun mainApi(): Docket = apiConfig.toDocket()

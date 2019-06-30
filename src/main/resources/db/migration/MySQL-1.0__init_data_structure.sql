@@ -21,16 +21,15 @@ use `comic-cloud-admin`;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for ACCOUNTS
+-- Table structure for USERS
 -- ----------------------------
-DROP TABLE IF EXISTS `ACCOUNT`;
-create table `ACCOUNT`
+DROP TABLE IF EXISTS `USERS`;
+create table `USERS`
 (
     `ID`         INTEGER      NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
     `UID`        VARCHAR(64)  NOT NULL UNIQUE,
-    `USERNAME`   VARCHAR(500) NOT NULL,
-    `PASSWORD`   VARCHAR(500) NOT NULL,
-    `SALT`       VARCHAR(500) NOT NULL UNIQUE,
+    `USERNAME`   VARCHAR(100) NOT NULL,
+    `PASSWORD`   VARCHAR(100) NOT NULL,
     `EMAIL`      VARCHAR(100) NOT NULL,
     `PHONE`      VARCHAR(20),
     `CREATED_AT` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,113 +41,85 @@ create table `ACCOUNT`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
-create unique index `ACCOUNT_SALT_IDX` on `ACCOUNT` (`SALT`);
-create unique index `ACCOUNT_USERNAME_IDX` on `ACCOUNT` (`USERNAME`);
+create unique index `USERS_USERNAME_IDX` on `USERS` (`USERNAME`);
+
+-- <'alice', bcrypt('alice-password')>
+INSERT INTO USERS(USERNAME, PASSWORD)
+values ('alice', '$2a$10$ezJDL4CP0jMOsXO/0SmvJetPMehGdiIDYzh2SKsfkW5c57Bz33o2m');
+-- <'bob', bcrypt('bob-password')>
+INSERT INTO USERS(USERNAME, PASSWORD)
+values ('bob', '$2a$10$vPZXpQ37RHVQhfI1jPCC9.6.w7LsmPu4Fee0FCF45rOXqv99UtQoa');
+-- <'chris', bcrypt('chris-password')>
+INSERT INTO USERS(USERNAME, PASSWORD)
+values ('chris', '$2a$10$zo967KgB3M5kDcyRH.k6KegnSGKzfggZnG2wtCongD8FtIJTSrBnW');
+-- <'david', bcrypt('david-password')>
+INSERT INTO USERS(USERNAME, PASSWORD)
+values ('david', '$2a$10$5H1gBZKAXY8UZsUwUbdGZux3GvXoOVP.urSI6RKH/TRsqGbtRb/UW');
 
 -- ----------------------------
--- Table structure for ACCOUNT_ROLE
+-- Table structure for USER_ROLES
 -- ----------------------------
-DROP TABLE IF EXISTS `ACCOUNT_ROLE`;
-CREATE TABLE `ACCOUNT_ROLE`
+DROP TABLE IF EXISTS `USER_ROLES`;
+CREATE TABLE `USER_ROLES`
 (
-    `ACCOUNT_UID` VARCHAR(64),
-    `ROLE_UID`    VARCHAR(64),
-    `CREATED_AT`  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `CREATED_BY`  VARCHAR(64) NOT NULL,
-    PRIMARY KEY (`ACCOUNT_UID`, `ROLE_UID`)
+    `ID`         INTEGER     NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
+    `USERNAME`   VARCHAR(100),
+    `ROLE_NAME`  VARCHAR(100),
+    `CREATED_AT` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY` VARCHAR(64) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
--- ----------------------------
--- Table structure for ROLES
--- ----------------------------
-DROP TABLE IF EXISTS `ROLE`;
-CREATE TABLE `ROLE`
-(
-    `ID`          INTEGER      NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
-    `UID`         VARCHAR(64)  NOT NULL UNIQUE,
-    `CODE`        VARCHAR(150) NOT NULL,
-    `TITLE`       VARCHAR(150) NOT NULL,
-    `DESCRIPTION` VARCHAR(255),
-    `TYPE`        TINYINT,
-    `STATUS`      TINYINT,
-    `CREATED_AT`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `CREATED_BY`  VARCHAR(64)  NOT NULL,
-    `UPDATED_AT`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `UPDATED_BY`  VARCHAR(64)  NOT NULL
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+create unique index `USER_ROLES_USERNAME_IDX` on `USER_ROLES` (`USERNAME`);
+create unique index `USER_ROLES_ROLE_NAME_IDX` on `USER_ROLES` (`ROLE_NAME`);
 
-create unique index `ROLE_CODE_IDX` on `ROLE` (`CODE`);
-create unique index `ROLE_TITLE_IDX` on `ROLE` (`TITLE`);
+-- roles of users
+INSERT INTO USER_ROLES(USERNAME, ROLE_NAME)
+values ('alice', 'admin');
+INSERT INTO USER_ROLES(USERNAME, ROLE_NAME)
+values ('bob', 'user');
+INSERT INTO USER_ROLES(USERNAME, ROLE_NAME)
+values ('chris', 'file-operator');
+INSERT INTO USER_ROLES(USERNAME, ROLE_NAME)
+values ('david', 'log-archiver');
 
 -- ----------------------------
--- Table structure for ROLE_PERMISSION
+-- Table structure for ROLES_PERMISSIONS
 -- ----------------------------
-DROP TABLE IF EXISTS `ROLE_PERMISSION`;
-CREATE TABLE `ROLE_PERMISSION`
+DROP TABLE IF EXISTS `ROLES_PERMISSIONS`;
+CREATE TABLE `ROLES_PERMISSIONS`
 (
-    `ROLE_UID`       VARCHAR(64),
-    `PERMISSION_UID` VARCHAR(64),
-    `CREATED_AT`     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `CREATED_BY`     VARCHAR(64) NOT NULL,
-    PRIMARY KEY (`ROLE_UID`, `PERMISSION_UID`)
+    `ID`         INTEGER     NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
+    `ROLE_NAME`  VARCHAR(100),
+    `PERMISSION` VARCHAR(100),
+    `CREATED_AT` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `CREATED_BY` VARCHAR(64) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
--- ----------------------------
--- Table structure for PERMISSION
--- ----------------------------
-DROP TABLE IF EXISTS `PERMISSION`;
-CREATE TABLE `PERMISSION`
-(
-    `ID`          INTEGER      NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
-    `PARENT_ID`   INTEGER,
-    `UID`         VARCHAR(64)  NOT NULL UNIQUE,
-    `CODE`        VARCHAR(150) NOT NULL,
-    `TITLE`       VARCHAR(150) NOT NULL,
-    `DESCRIPTION` VARCHAR(255),
-    `URL`         VARCHAR(255),
-    `INDEX`       TINYINT COMMENT '序号',
-    `TYPE`        TINYINT,
-    `STATUS`      TINYINT,
-    `CREATED_AT`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `CREATED_BY`  VARCHAR(64)  NOT NULL,
-    `UPDATED_AT`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `UPDATED_BY`  VARCHAR(64)  NOT NULL
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+create unique index `ROLES_PERMISSIONS_ROLE_NAME_IDX` ON `ROLES_PERMISSIONS` (`ROLE_NAME`);
+create unique index `ROLES_PERMISSIONS_PERMISSION_IDX` ON `ROLES_PERMISSIONS` (`PERMISSION`);
 
-create unique index `PERMISSION_CODE_IDX` on `PERMISSION` (`CODE`);
-create unique index `PERMISSION_INDEX_IDX` on `PERMISSION` (`INDEX`);
+-- permissions of roles
 
--- ----------------------------
--- Table structure for CLIENTS
--- ----------------------------
-DROP TABLE IF EXISTS `CLIENTS`;
-create table `CLIENTS`
-(
-    `ID`            INTEGER      NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
-    `UID`           VARCHAR(64)  NOT NULL UNIQUE,
-    `OWNER_ID`      VARCHAR(64)  NOT NULL UNIQUE,
-    `CLIENT_ID`     VARCHAR(100) NOT NULL UNIQUE,
-    `CLIENT_SECRET` VARCHAR(100) NOT NULL UNIQUE,
-    `REDIRECT_URI`  VARCHAR(2000),
-    `CREATED_AT`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `CREATED_BY`    VARCHAR(64)  NOT NULL,
-    `UPDATED_AT`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `UPDATED_BY`    VARCHAR(64)  NOT NULL
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+-- The 'admin' role has all permissions.
+INSERT INTO ROLES_PERMISSIONS(ROLE_NAME, PERMISSION)
+values ('admin', '*');
 
-create unique index `CLIENT_CLIENT_ID_IDX` on `CLIENTS` (`CLIENT_ID`);
-create unique index `CLIENT_CLIENT_SECRET_IDX` on `CLIENTS` (`CLIENT_SECRET`);
+-- The 'user' role can read and write files. This line can also be replaced by two lines:
+--   insert into ROLES_PERMISSIONS(role_name, permission) values ('user', 'files:read');
+--   insert into ROLES_PERMISSIONS(role_name, permission) values ('user', 'files:write');
+INSERT INTO ROLES_PERMISSIONS(ROLE_NAME, PERMISSION)
+values ('user', 'files:read,write');
+
+-- The 'file-operator' role can do anything to files.
+INSERT INTO ROLES_PERMISSIONS(ROLE_NAME, PERMISSION)
+values ('file-operator', 'files:*');
+
+-- The 'log-archiver' role can read and archive log files.
+INSERT INTO ROLES_PERMISSIONS(ROLE_NAME, PERMISSION)
+values ('log-archiver', 'files:read,archive:log');
+
 SET FOREIGN_KEY_CHECKS = 1;

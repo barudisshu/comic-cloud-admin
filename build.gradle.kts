@@ -73,7 +73,13 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("mysql:mysql-connector-java")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "junit")
+        exclude(module = "mockito-core")
+    }
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("com.ninja-squad:springmockk:1.1.2")
     // shiro
     compile("org.apache.shiro:shiro-core:$shiroVersion")
     compile("org.apache.shiro:shiro-web:$shiroVersion")
@@ -98,13 +104,15 @@ dependencies {
     compile("org.apache.commons:commons-math3:3.6.1")
     compile("commons-io:commons-io:2.6")
     // jwt
-    compile("com.auth0:java-jwt:3.2.0")
+    compile("io.jsonwebtoken:jjwt:0.7.0")
     // gson
     compile("com.google.code.gson:gson:2.8.5")
     // okhttp
     compile("com.squareup.okhttp3:okhttp:3.14.2")
     // kaptcha
     compile("com.github.penggle:kaptcha:2.3.2")
+    // jbcrypt
+    compile("de.svenkubiak:jBCrypt:0.4.1")
 }
 
 configure<FlywayExtension> {
