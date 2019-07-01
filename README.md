@@ -1,6 +1,4 @@
-"# comic-cloud-admin" 
-
-# Spring Boot Shiro JWT
+# comic-cloud-admin
 
 Example of integrating [Spring Boot](https://spring.io/projects/spring-boot) & [Apache Shiro](https://shiro.apache.org/)
 & [JWT](https://jwt.io/introduction/) together to do the authentication/authorization stuff.
