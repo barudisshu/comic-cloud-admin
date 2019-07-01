@@ -33,11 +33,11 @@ class UsersRepo(private val dsl: DSLContext) {
             .firstOrNull()
 
     fun requireOneById(id: String): UsersRecord = getOneById(id)
-            ?: throw EntityNotFoundException("info.galudisu.comic.model.tables.records.UsersRecord NOT FOUND ! (id=$id)")
+            ?: throw EntityNotFoundException("UsersRecord NOT FOUND ! (id=$id)")
 
     fun insert(accountsRecord: UsersRecord) =
             getOneByUsername(accountsRecord.username)?.let {
-                throw EntityAlreadyExistException("info.galudisu.comic.model.tables.records.UsersRecord username exists ! (username=${accountsRecord.username})")
+                throw EntityAlreadyExistException("UsersRecord username exists ! (username=${accountsRecord.username})")
             } ?: run {
                 dsl.insertInto(USERS)
                         .set(accountsRecord)

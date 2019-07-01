@@ -7,7 +7,7 @@ Example of integrating [Spring Boot](https://spring.io/projects/spring-boot) & [
 
 #### 1. Start the service
 ```bash
-mvn spring-boot:run
+gradle bootRun
 ```
 
 #### 2. Get tokens

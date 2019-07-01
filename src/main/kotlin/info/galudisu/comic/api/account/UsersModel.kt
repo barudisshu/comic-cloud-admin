@@ -5,10 +5,10 @@ import info.galudisu.comic.system.security.BCryptPasswordService
 import java.time.Instant
 import java.util.*
 
-data class UsersDto(val id: String, val username: String, val password: String, val email: String, val phone: String?, val createdAt: Instant)
+data class UsersDto(val id: String, val username: String, val password: String?, val email: String, val phone: String?, val createdAt: Instant)
 
 fun UsersRecord.toUsersDto() = UsersDto(
-        id = uid, username = username, password = password, email = email, phone = phone, createdAt = createdAt
+        id = uid, username = username, password = null, email = email, phone = phone, createdAt = createdAt
 )
 
 data class UsersCreateRequest(val username: String, val rawPwd: String, val email: String, val phone: String?)
