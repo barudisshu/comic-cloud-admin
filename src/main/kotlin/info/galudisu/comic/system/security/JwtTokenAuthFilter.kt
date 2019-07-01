@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse
 
 class JwtTokenAuthFilter(private val config: JwtConfig) : OncePerRequestFilter() {
 
+    @Suppress("UNCHECKED_CAST")
     @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         val req = request as HttpServletRequest

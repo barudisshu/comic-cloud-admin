@@ -112,6 +112,7 @@ dependencies {
     compile("com.github.penggle:kaptcha:2.3.2")
     // jbcrypt
     compile("de.svenkubiak:jBCrypt:0.4.1")
+    compile("org.crazycake:shiro-redis:3.2.3")
 }
 
 configure<FlywayExtension> {
